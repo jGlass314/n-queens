@@ -3,6 +3,13 @@
   <head>
     <title>n-rooks solver</title>
     <style type="text/css">
+      .body {
+
+      }
+      .board {
+        /* position: relative;
+        margin:auto; */
+      }
       .square {
         width: 30px;
         height: 30px;
@@ -29,10 +36,13 @@
     <script src="src/Board.js"></script>
     <script src="src/BoardView.js"></script>
     <script src="src/solvers.js"></script>
+    <div class = board>
+
+    </div>
     <script>
       // This function uses a board visualizer lets you view an interactive version of any piece matrix.
       window.displayBoard = function(matrix){
-        $('body').html(
+        $('.board').html(
           new BoardView({
             model: new Board(matrix)
           }).render()
