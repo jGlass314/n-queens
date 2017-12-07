@@ -168,7 +168,7 @@
         }
       }
       return false;
-    }
+    }/*,
 
     copyAttributes: function() {
       attributes = {};
@@ -181,7 +181,7 @@
       }
       return attributes;
     }
-
+*/
     /*--------------------  End of Helper Functions  ---------------------*/
 
 
