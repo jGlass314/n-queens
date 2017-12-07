@@ -14,7 +14,7 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 window.findNRooksSolution = function(n) {
   let solution = this.getAllRookSolutions(n, 1)[0];
-  console.log(solution);
+  //console.log(solution);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -90,7 +90,7 @@ window.getAllRookSolutions = function(n, solutionLimit) {
     tmpBoard.push(Array(n).fill(0));
   }
   recurse(subsetArray);
-  console.log(boardArray);
+  //console.log(boardArray);
   return boardArray;
 };
 
@@ -105,7 +105,8 @@ window.getAllQueenSolutions = function(n, solutionLimit) {
   solutionLimit = solutionLimit === undefined ? Number.POSITIVE_INFINITY : solutionLimit;
   var rookBoardArray = getAllRookSolutions(n);
   var queenBoardArray = [];
-  rookBoardArray.forEach(function(rookBoard) {
+  rookBoardArray.forEach(function(arrayBoard) {
+    var rookBoard = new Board(arrayBoard);
     if (!rookBoard.hasAnyMajorDiagonalConflicts() && !rookBoard.hasAnyMinorDiagonalConflicts()) {
       queenBoardArray.push(rookBoard);
       if (queenBoardArray.length >= solutionLimit) {
@@ -121,17 +122,25 @@ window.findNQueensSolution = function(n) {
   if (n === 0) {
     return [];
   }
-  // debugger;
-  return this.getAllQueenSolutions(n, 1)[0];
+  var nQueenSolutionBoardArray = this.getAllQueenSolutions(n, 1);
+  if(nQueenSolutionBoardArray.length === 0) {
+    return new Board({n: n}).rows();
+  } else {
+    return nQueenSolutionBoardArray[0].rows();
+  }
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   var solutionCount = undefined;
+  nQueenSolutionBoardArray = getAllQueenSolutions(n);
+  solutionCount = nQueenSolutionBoardArray.length;
+  console.log('n:',n,nQueenSolutionBoardArray);
+  
   if (n === 0) {
-    return 0;
+    return 1;
   }
-  solutionCount = getAllQueenSolutions(n).length;
+  // if(n === 3) debugger;
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
