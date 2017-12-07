@@ -25,7 +25,10 @@
     },
 
     togglePiece: function(rowIndex, colIndex) {
-      this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+
+      //this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+      if(this.get(rowIndex)[colIndex]) this.get(rowIndex)[colIndex]=0;
+      else this.get(rowIndex)[colIndex]=1;
       this.trigger('change');
     },
 
@@ -126,7 +129,7 @@
       var col = majorDiagonalColumnIndexAtFirstRow;
       var count = 0;
       for (let row = 0; row < this.attributes.n; row++, col++) {
-        if(col >= 0 && col < this.attributes.n) {
+        if (col >= 0 && col < this.attributes.n) {
           count += this.attributes[row][col];
         }
       }
@@ -136,7 +139,7 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       for (let col = 1 - this.attributes.n; col < this.attributes.n; col++) {
-        if(this.hasMajorDiagonalConflictAt(col)) {
+        if (this.hasMajorDiagonalConflictAt(col)) {
           return true;
         }
       }
@@ -153,7 +156,7 @@
       var col = minorDiagonalColumnIndexAtFirstRow;
       var count = 0;
       for (let row = 0; row < this.attributes.n; row++, col--) {
-        if(col >= 0 && col < this.attributes.n) {
+        if (col >= 0 && col < this.attributes.n) {
           count += this.attributes[row][col];
         }
       }
@@ -163,7 +166,7 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       for (let col = 0; col < (2 * this.attributes.n) - 1; col++) {
-        if(this.hasMinorDiagonalConflictAt(col)) {
+        if (this.hasMinorDiagonalConflictAt(col)) {
           return true;
         }
       }

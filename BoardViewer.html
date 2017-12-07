@@ -63,6 +63,15 @@
         findNQueensSolution(n);
         countNQueensSolutions(n);
       });
+      $(function() {
+        var n = 4;
+        var foo = findNRooksSolution(n);
+        for(var i = 0; i < 5; i++) {
+          $('body').append('<div class="board"></div>');
+        }
+        displayBoard(findNRooksSolution());
+        
+      });
     </script>
   </body>
 </html>
