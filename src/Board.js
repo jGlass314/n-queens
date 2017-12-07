@@ -170,6 +170,18 @@
       return false;
     }
 
+    copyAttributes: function() {
+      attributes = {};
+      for(var key in this.attributes) {
+        if(Arrays.isArray(this.attributes[key])) {
+          attibutes[key] = this.attributes[key].slice();
+        } else {
+          attributes[key] = this.attributes[key];
+        }
+      }
+      return attributes;
+    }
+
     /*--------------------  End of Helper Functions  ---------------------*/
 
 
