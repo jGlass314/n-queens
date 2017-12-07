@@ -13,15 +13,15 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = this.getAllRookSolutions(n, 1)[0].rows();
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
-// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function(n) {
-
+window.getAllRookSolutions = function(n, solutionLimit) {
+  var callCount = 0;
+  solutionLimit = solutionLimit === undefined ? Number.POSITIVE_INFINITY : solutionLimit;
   // structure of subSetArray is [row][column][tuple coord (0 or 1)]
   var initSubsetArray = function(n) {
     var subsetArray = [];
@@ -32,51 +32,45 @@ window.countNRooksSolutions = function(n) {
       }
       subsetArray.push(rowOfTuples);
     }
+    callCount++;
     return subsetArray;
   };
-  var callCount = 0;
+
   var recurse = function(initSubsetArray) {
-    // if(callCount++ > 10) {
-    //   throw 'called too many times';
-    // }
-    if(n>1) console.log('call recurse');
     if(initSubsetArray.length === 1) {
-      if(n>1) console.log('entering base case');
       var newBoard = new Board(tmpBoard.rows());
       newBoard.togglePiece(initSubsetArray[0][0][0],initSubsetArray[0][0][1]);
-      console.log('newBoard:',newBoard);
-    //  if(n>1) debugger;
       boardArray.push(newBoard);
-      console.log('returning from base case');
       return;
     }
-    if(n>1)  console.log('initSubsetArray[0]',initSubsetArray[0]);
     for(var col = 0; col < initSubsetArray[0].length; col++) {
       var subsetArray = [];
       var rookIndex = [initSubsetArray[0][col][0],initSubsetArray[0][col][1]];
-      if(n>1) console.log('rookIndex:',rookIndex);
-      // toggle piece on
+      // toggle piece
       tmpBoard.togglePiece(...rookIndex);
       for(var row = 1; row < initSubsetArray.length; row++) {
-        if(n>1) console.log('row,col:',row,',',col,'initSubsetArray[row]:',initSubsetArray[row]);
         subsetArray.push(initSubsetArray[row].slice(0,col).concat(initSubsetArray[row].slice(col+1)));
       }
-      if(n>1) console.log('pre-recurse subsetArray:',subsetArray);
       recurse(subsetArray);
+      if(callCount >= solutionLimit) {
+        return;
+      }
       // toggle piece back off again before iterating to the next col
       tmpBoard.togglePiece(...rookIndex);
     }
 
   };
-  var solutionCount = undefined; //fixme
+  var solutionCount = undefined;
   var boardArray = [];
   var subsetArray = initSubsetArray(n);
   var tmpBoard = new Board({n:n});
   recurse(subsetArray);
+  return boardArray;
+};
 
-  solutionCount = boardArray.length;
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  if(n>1) console.log('boardArray:', boardArray);
+// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
+window.countNRooksSolutions = function(n) {
+  solutionCount = getAllRookSolutions(n).length;
   return solutionCount;
 };
 
