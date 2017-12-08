@@ -25,10 +25,7 @@
     },
 
     togglePiece: function(rowIndex, colIndex) {
-
-      //this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
-      if(this.get(rowIndex)[colIndex]) this.get(rowIndex)[colIndex]=0;
-      else this.get(rowIndex)[colIndex]=1;
+      this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
     },
 
@@ -94,8 +91,6 @@
       }
       return false;
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
